@@ -1,11 +1,18 @@
 import java.lang.Math;
-import java.util.Scanner;
 
 class SudokuSolver {
 
-    public static final int[][] sudokuBoard =
+    public static final int[][] sudokuBoard = {{4, 0, 0, 7, 3, 0, 0, 9, 0},
+    {0, 0, 0, 0, 5, 0, 0, 0, 6},
+    {0, 0, 0, 0, 0, 0, 8, 3, 0},
+    {0, 0, 7, 4, 0, 0, 3, 1, 0},
+    {0, 0, 2, 0, 0, 0, 6, 0, 0},
+    {0, 5, 3, 0, 0, 1, 9, 0, 0},
+    {0, 8, 1, 0, 0, 0, 0, 0, 0},
+    {7, 0, 0, 0, 6, 0, 0, 0, 0},
+    {0, 9, 0, 0, 2, 7, 0, 0, 8}};
 
-    public static final int gridSize = sudokuBoard.length;
+    public static final int boardSize = sudokuBoard.length;
     public static void main(String[] args) {
         printGrid(sudokuBoard);
         if (solveGrid(sudokuBoard)) {
@@ -16,10 +23,10 @@ class SudokuSolver {
     }
 
     public static boolean solveGrid(int[][] grid) {
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
                 if (grid[i][j] == 0) {
-                    for (int k = 1; k < gridSize + 1; k++) {
+                    for (int k = 1; k < boardSize + 1; k++) {
                         grid[i][j] = k;
                         printGrid(grid);
 
@@ -27,7 +34,7 @@ class SudokuSolver {
                             if (solveGrid(grid)) { // call this method recursively, which will check the next square
                                 return true;
                             }
-                        } else if (!checkSquare(grid, i, j, k) && (k == gridSize)) { // no values have worked, must backtrack
+                        } else if (!checkSquare(grid, i, j, k) && (k == boardSize)) { // no values have worked, must backtrack
                             grid[i][j] = 0; // reset the current square to 0,
                             return false;
                         }
@@ -42,7 +49,7 @@ class SudokuSolver {
         int instances = -1;
 
         // Check row
-        for (int i = 0; i < gridSize; i++) {
+        for (int i = 0; i < boardSize; i++) {
             if (grid[row][i] == value) {
                 instances++;
             }
@@ -55,7 +62,7 @@ class SudokuSolver {
         }
 
         // Check column
-        for (int j = 0; j < gridSize; j++) {
+        for (int j = 0; j < boardSize; j++) {
             if (grid[j][col] == value) {
                 instances++;          
             }
@@ -68,7 +75,7 @@ class SudokuSolver {
         }
 
         // Check box
-        int boxSize = (int) Math.sqrt(gridSize);
+        int boxSize = (int) Math.sqrt(boardSize);
         int boxStartingRow = boxSize * ((int) row / boxSize);
         int boxStartingCol = boxSize * ((int) col / boxSize);
 
