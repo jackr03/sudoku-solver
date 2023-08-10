@@ -2,24 +2,30 @@ import java.lang.Math;
 
 class SudokuSolver {
 
-    public static final int[][] sudokuBoard = {{4, 0, 0, 7, 3, 0, 0, 9, 0},
-    {0, 0, 0, 0, 5, 0, 0, 0, 6},
-    {0, 0, 0, 0, 0, 0, 8, 3, 0},
-    {0, 0, 7, 4, 0, 0, 3, 1, 0},
-    {0, 0, 2, 0, 0, 0, 6, 0, 0},
-    {0, 5, 3, 0, 0, 1, 9, 0, 0},
-    {0, 8, 1, 0, 0, 0, 0, 0, 0},
-    {7, 0, 0, 0, 6, 0, 0, 0, 0},
-    {0, 9, 0, 0, 2, 7, 0, 0, 8}};
+    public static final int[][] sudokuBoard = 
+    {{0, 0, 6, 0, 7, 8, 0, 4, 0},
+    {0, 0, 0, 0, 3, 9, 7, 0, 0},
+    {9, 0, 0, 2, 0, 0, 0, 8, 0},
+    {0, 6, 0, 0, 0, 0, 8, 0, 4},
+    {7, 0, 4, 0, 0, 0, 5, 0, 2},
+    {8, 0, 9, 0, 0, 0, 0, 1, 0},
+    {0, 3, 0, 0, 0, 5, 0, 0, 8},
+    {0, 0, 8, 6, 4, 0, 0, 0, 0},
+    {0, 9, 0, 8, 1, 0, 4, 0, 0}};
 
     public static final int boardSize = sudokuBoard.length;
+
+    public static final int boxSize = (int) Math.sqrt(boardSize);
+
     public static void main(String[] args) {
         printGrid(sudokuBoard);
+
         if (solveGrid(sudokuBoard)) {
             System.out.println("Sudoku board solved.");
         } else {
             System.out.println("No possible solutions.");
         }
+
     }
 
     public static boolean solveGrid(int[][] grid) {
@@ -75,7 +81,6 @@ class SudokuSolver {
         }
 
         // Check box
-        int boxSize = (int) Math.sqrt(boardSize);
         int boxStartingRow = boxSize * ((int) row / boxSize);
         int boxStartingCol = boxSize * ((int) col / boxSize);
 
@@ -95,14 +100,26 @@ class SudokuSolver {
     }
 
     public static void printGrid(int[][] grid) {
-        for (int[] i : grid) {
-            for (int j : i) {
-                System.out.print(j);
+        for (int i = 0; i < boardSize; i++) {
+            if ((i == 0) || (i == 3) || (i == 6)) {
+                System.out.print("- - - - - - - - - - - - -\n");
+            }
+
+            for (int j = 0; j < boardSize; j++) {
+                if ((j == 0) || (j == 3) || (j == 6)) {
+                    System.out.print("| ");
+                }
+
+                if (grid[i][j] == 0) {
+                    System.out.print(" ");
+                } else {
+                    System.out.print(grid[i][j]);
+                }
+                
                 System.out.print(" ");
             }
-            
-            System.out.println();
+            System.out.print("|\n");
         }
-            System.out.println();
+        System.out.print("- - - - - - - - - - - - -\n");
     }
 }
